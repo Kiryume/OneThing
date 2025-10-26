@@ -8,6 +8,10 @@ interface TaskDao {
     @Query("SELECT * FROM Task")
     fun getAll(): Flow<List<Task>>
 
+    // Snapshot list for non-reactive consumers (e.g., widgets)
+    @Query("SELECT * FROM Task")
+    suspend fun getAllOnce(): List<Task>
+
     @Insert
     suspend fun insert(task: Task): Long
 
