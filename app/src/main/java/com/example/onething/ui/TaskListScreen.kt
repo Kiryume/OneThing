@@ -10,13 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.onething.data.Task
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskListScreen(tasks: List<Task>, onAddTask: (String) -> Unit) {
     var newTask by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("My Tasks") }) },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 onAddTask(newTask)

@@ -11,9 +11,4 @@ import kotlinx.coroutines.launch
 
 class TasksWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = TasksWidget()
-
-    override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-        val action = intent.action
-    }
 }

@@ -69,7 +69,7 @@ private fun TasksWidgetContent(context: Context, tasks: List<Task>) {
             modifier = GlanceModifier
                 .fillMaxSize()
                 .appWidgetBackground()
-                .background(GlanceTheme.colors.background)
+                .background(GlanceTheme.colors.widgetBackground)
                 .clickable(
                     onClick = actionStartActivity(intent)
                 )

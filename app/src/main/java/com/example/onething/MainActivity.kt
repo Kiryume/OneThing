@@ -14,6 +14,10 @@ import androidx.compose.runtime.collectAsState
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val showRequest = shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)
+        if (!showRequest) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
+        }
 
         val db = AppDatabase.getInstance(applicationContext)
         val dao = db.taskDao()
