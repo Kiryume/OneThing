@@ -24,6 +24,7 @@
 
         <activity
             android:name=".ui.AddTaskActivity"
+            android:taskAffinity="com.example.onething.addtask"
             android:exported="true"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.OneThing.Overlay"

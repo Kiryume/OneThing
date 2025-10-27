@@ -46,18 +46,16 @@ class TasksWidget : GlanceAppWidget() {
     }
 }
 
-@Composable
-private fun TasksWidgetContent(context: Context, tasks: List<Task>) {
-    val openAppIntent = Intent(context, MainActivity::class.java).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-    }
-    val addTaskIntent = Intent(context, AddTaskActivity::class.java).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-    }
+    @Composable
+    private fun TasksWidgetContent(context: Context, tasks: List<Task>) {
+        val openAppIntent = Intent(context, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
+        val addTaskIntent = Intent(context, AddTaskActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
 
     GlanceTheme {
         val titleStyle = TextStyle(
