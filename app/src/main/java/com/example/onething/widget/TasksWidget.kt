@@ -12,19 +12,17 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.action.actionStartActivity
+import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
-import androidx.glance.layout.Column
-import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.height
-import androidx.glance.layout.padding
+import androidx.glance.layout.*
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.text.FontWeight
 import com.example.onething.MainActivity
 import com.example.onething.data.AppDatabase
 import com.example.onething.data.Task
+import com.example.onething.ui.AddTaskActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -50,11 +48,14 @@ class TasksWidget : GlanceAppWidget() {
 
 @Composable
 private fun TasksWidgetContent(context: Context, tasks: List<Task>) {
-    val intent = Intent(context, MainActivity::class.java).apply {
+    val openAppIntent = Intent(context, MainActivity::class.java).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-
+        addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+    }
+    val addTaskIntent = Intent(context, AddTaskActivity::class.java).apply {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
     }
 
@@ -70,21 +71,18 @@ private fun TasksWidgetContent(context: Context, tasks: List<Task>) {
                 .fillMaxSize()
                 .appWidgetBackground()
                 .background(GlanceTheme.colors.widgetBackground)
-                .clickable(
-                    onClick = actionStartActivity(intent)
-                )
                 .padding(12.dp),
         ) {
-            Text(text = "My Tasks", style = titleStyle)
+            Row(modifier = GlanceModifier.fillMaxWidth(), horizontalAlignment = Alignment.Horizontal.End) {
+                Text(text = "My Tasks", style = titleStyle)
+                Spacer(modifier = GlanceModifier.defaultWeight())
+                Text(text = "Add", style = titleStyle, modifier = GlanceModifier
+                    .clickable(onClick = actionStartActivity(addTaskIntent)))
+            }
             Spacer(modifier = GlanceModifier.height(8.dp))
-            if (tasks.isEmpty()) {
-                Text(text = "No tasks yet", style = bodyStyle)
-            } else {
-                val shown = tasks.take(5)
-                for (t in shown) Text(text = "• ${t.name}", style = bodyStyle)
-                if (tasks.size > shown.size) {
-                    Spacer(modifier = GlanceModifier.height(4.dp))
-                    Text(text = "+${tasks.size - shown.size} more…", style = bodyStyle)
+            LazyColumn {
+                items(tasks.size) { i ->
+                    Text(text = "• ${tasks[i].name}", style = bodyStyle)
                 }
             }
         }

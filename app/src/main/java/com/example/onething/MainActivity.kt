@@ -1,6 +1,6 @@
 package com.example.onething
 
-import android.app.NotificationChannel
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,9 +9,9 @@ import com.example.onething.data.AppDatabase
 import com.example.onething.ui.TaskListScreen
 import com.example.onething.ui.TaskViewModel
 import com.example.onething.ui.TaskViewModelFactory
-import com.example.onething.ui.theme.OneThingTheme
 import androidx.compose.runtime.collectAsState
-import androidx.work.WorkManager
+import com.example.onething.ui.AddTaskActivity
+import com.example.onething.ui.theme.OneThingTheme
 
 
 class MainActivity : ComponentActivity() {
@@ -27,8 +27,12 @@ class MainActivity : ComponentActivity() {
             OneThingTheme {
                 val viewModel: TaskViewModel = viewModel(factory = factory)
                 val tasks = viewModel.tasks.collectAsState(initial = emptyList()).value
-
-                TaskListScreen(tasks = tasks, onAddTask = { viewModel.addTask(it) })
+                TaskListScreen(
+                    tasks = tasks,
+                    onAddClicked = {
+                        startActivity(Intent(this, AddTaskActivity::class.java))
+                    }
+                )
             }
         }
     }

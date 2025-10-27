@@ -14,14 +14,6 @@ class TaskViewModel(private val appContext: Context, private val dao: TaskDao) :
     val tasks = dao.getAllToday()
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    fun addTask(name: String) {
-        viewModelScope.launch {
-            if (name.isNotBlank()) {
-                dao.insert(Task(name = name))
-                TasksWidget.updateAll(appContext)
-            }
-        }
-    }
 }
 
 class TaskViewModelFactory(private val appContext: Context, private val dao: TaskDao) : ViewModelProvider.Factory {
