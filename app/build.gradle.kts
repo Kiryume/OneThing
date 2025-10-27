@@ -60,7 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    // --- Room ---
+    // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
@@ -68,4 +68,6 @@ dependencies {
     implementation(libs.androidx.glance.appwidget)
     // Glance Material 3 for widgets
     implementation(libs.androidx.glance.material3)
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
 }

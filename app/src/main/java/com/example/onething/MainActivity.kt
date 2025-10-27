@@ -1,5 +1,6 @@
 package com.example.onething
 
+import android.app.NotificationChannel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,14 +11,13 @@ import com.example.onething.ui.TaskViewModel
 import com.example.onething.ui.TaskViewModelFactory
 import com.example.onething.ui.theme.OneThingTheme
 import androidx.compose.runtime.collectAsState
+import androidx.work.WorkManager
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val showRequest = shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)
-        if (!showRequest) {
-            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
-        }
+        setupNotifications()
 
         val db = AppDatabase.getInstance(applicationContext)
         val dao = db.taskDao()
@@ -30,6 +30,14 @@ class MainActivity : ComponentActivity() {
 
                 TaskListScreen(tasks = tasks, onAddTask = { viewModel.addTask(it) })
             }
+        }
+    }
+
+    fun setupNotifications() {
+        val showRequest =
+            shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)
+        if (!showRequest) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
         }
     }
 }
