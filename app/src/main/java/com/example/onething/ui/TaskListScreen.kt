@@ -55,7 +55,9 @@ fun TaskListScreen(
                     shape = MaterialTheme.shapes.medium,
                     shadowElevation = 4.dp,
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier.defaultMinSize(minHeight = 100.dp)
+                    ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()

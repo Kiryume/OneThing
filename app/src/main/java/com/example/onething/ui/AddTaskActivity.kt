@@ -26,6 +26,7 @@ import com.example.onething.data.AppDatabase
 import com.example.onething.data.Task
 import com.example.onething.ui.theme.OneThingTheme
 import com.example.onething.widget.TasksWidget
+import com.example.onething.workers.WidgetSyncWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -47,7 +48,7 @@ class AddTaskActivity : ComponentActivity() {
                             val dao = AppDatabase.getInstance(appCtx).taskDao()
                             lifecycleScope.launch(Dispatchers.IO) {
                                 dao.insert(Task(name = trimmed))
-                                TasksWidget.updateAll(appCtx)
+                                WidgetSyncWorker.fireWorker(appCtx)
                                 withContext(Dispatchers.Main) { finish() }
                             }
                         } else {
