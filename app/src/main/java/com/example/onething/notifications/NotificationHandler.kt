@@ -13,24 +13,9 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.onething.MainActivity
 import com.example.onething.R
 
+
 object NotificationHandler {
     const val NOTIFICATION_ID = 1
-    const val CHANNEL_ID = "OneThingChannel"
-
-    fun createNotificationChannel(context: Context) {
-        val name = context.getString(R.string.channel_name)
-        val descriptionText = context.getString(R.string.channel_description)
-        val myChannel = NotificationChannel(
-            CHANNEL_ID,
-            name,
-            android.app.NotificationManager.IMPORTANCE_DEFAULT
-        ).apply {
-            description = descriptionText
-        }
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(myChannel)
-    }
 
     fun showNotification(context: Context) {
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -38,7 +23,7 @@ object NotificationHandler {
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent,
             PendingIntent.FLAG_IMMUTABLE)
-        val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
+        val notificationBuilder = NotificationCompat.Builder(context, NotificationChannels.CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("Good Morning!")
             .setContentText("Don't forget to check your tasks for today.")

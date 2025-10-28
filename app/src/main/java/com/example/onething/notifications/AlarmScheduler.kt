@@ -10,8 +10,10 @@ import java.util.Calendar
 
 object AlarmScheduler {
 
-    const val ACTION_SHOW_INITIAL_NOTIFICATION = "com.example.myapp.ACTION_SHOW_INITIAL_NOTIFICATION"
-    const val ACTION_CHECK_NOTIFICATION_STATUS = "com.example.myapp.ACTION_CHECK_NOTIFICATION_STATUS"
+    const val ACTION_SHOW_INITIAL_NOTIFICATION =
+        "com.example.myapp.ACTION_SHOW_INITIAL_NOTIFICATION"
+    const val ACTION_CHECK_NOTIFICATION_STATUS =
+        "com.example.myapp.ACTION_CHECK_NOTIFICATION_STATUS"
 
     private const val FIVE_MINUTES_MS = 5 * 60 * 1000L
 
@@ -27,7 +29,6 @@ object AlarmScheduler {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // Set the alarm to trigger at 7:00 AM
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 7)
@@ -35,15 +36,12 @@ object AlarmScheduler {
             set(Calendar.SECOND, 0)
         }
 
-        // If 7 AM has already passed today, schedule it for tomorrow
         if (calendar.timeInMillis <= System.currentTimeMillis()) {
             calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
 
         Log.d("AlarmScheduler", "Setting 7 AM alarm for: ${calendar.time}")
 
-        // Use setExactAndAllowWhileIdle for exact timing
-        // This requires SCHEDULE_EXACT_ALARM permission on Android 12+
         try {
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
@@ -51,8 +49,11 @@ object AlarmScheduler {
                 pendingIntent
             )
         } catch (se: SecurityException) {
-            Log.e("AlarmScheduler", "SecurityException: Missing SCHEDULE_EXACT_ALARM permission?")
-            // Fallback or notify user
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
         }
     }
 
@@ -70,9 +71,6 @@ object AlarmScheduler {
 
         Log.d("AlarmScheduler", "Setting 5-minute repeating check")
 
-        // setInexactRepeating is more battery-friendly.
-        // If you need exact 5-minute intervals, you'd have to use setExactAndAllowWhileIdle
-        // and re-schedule it every time in the receiver, which is more complex.
         alarmManager.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             SystemClock.elapsedRealtime() + FIVE_MINUTES_MS,

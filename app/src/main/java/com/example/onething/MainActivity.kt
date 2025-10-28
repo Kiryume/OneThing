@@ -10,6 +10,7 @@ import com.example.onething.ui.TaskListScreen
 import com.example.onething.ui.TaskViewModel
 import com.example.onething.ui.TaskViewModelFactory
 import androidx.compose.runtime.collectAsState
+import com.example.onething.notifications.NotificationChannels
 import com.example.onething.ui.AddTaskActivity
 import com.example.onething.ui.theme.OneThingTheme
 
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupPermissions()
+        NotificationChannels.ensureCreated(this)
 
         val db = AppDatabase.getInstance(applicationContext)
         val dao = db.taskDao()
