@@ -17,7 +17,7 @@ import com.example.onething.ui.theme.OneThingTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupNotifications()
+        setupPermissions()
 
         val db = AppDatabase.getInstance(applicationContext)
         val dao = db.taskDao()
@@ -37,11 +37,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun setupNotifications() {
-        val showRequest =
+    fun setupPermissions() {
+        var showRequest =
             shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)
         if (!showRequest) {
             requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
+        }
+        showRequest = shouldShowRequestPermissionRationale(android.Manifest.permission.SCHEDULE_EXACT_ALARM)
+        if (!showRequest) {
+            requestPermissions(arrayOf(android.Manifest.permission.SCHEDULE_EXACT_ALARM), 102)
         }
     }
 }

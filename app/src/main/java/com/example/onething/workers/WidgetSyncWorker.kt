@@ -11,7 +11,7 @@ import com.example.onething.widget.TasksWidget
 
 class WidgetSyncWorker(
     val context: Context,
-    val params: WorkerParameters,
+    params: WorkerParameters,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
