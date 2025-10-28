@@ -21,7 +21,7 @@ fun TaskListScreen(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddClicked) {
+            FloatingActionButton(onClick = onAddClicked, modifier = Modifier.padding(0.dp, 0.dp, 8.dp)) {
                 Icon(Icons.Default.Add, contentDescription = "Add Task")
             }
         }
@@ -49,7 +49,7 @@ fun TaskListScreen(
             )
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(8.dp)
             ) {
                 Surface(
                     shape = MaterialTheme.shapes.medium,
