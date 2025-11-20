@@ -10,7 +10,7 @@ class AlarmReceiver : BroadcastReceiver() {
         when (intent.action) {
             AlarmScheduler.ACTION_SHOW_INITIAL_NOTIFICATION -> {
                 checkAndShowNotification(context)
-                AlarmScheduler.scheduleRepeatingCheck(context)
+                AlarmScheduler.scheduleCheck(context)
             }
 
             AlarmScheduler.ACTION_CHECK_NOTIFICATION_STATUS -> {
@@ -19,6 +19,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     NotificationHandler.cancelNotification(context)
                 } else {
                     checkAndShowNotification(context)
+                    AlarmScheduler.scheduleCheck(context)
                 }
             }
 

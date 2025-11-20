@@ -15,7 +15,7 @@ object AlarmScheduler {
     const val ACTION_CHECK_NOTIFICATION_STATUS =
         "com.example.onething.ACTION_CHECK_NOTIFICATION_STATUS"
 
-    private const val FIVE_MINUTES_MS = 5 /* 60 */* 1000L
+    private const val FIVE_MINUTES_MS = 5 * 60 * 1000L
 
     fun scheduleInitialAlarm(context: Context) {
         Log.d("AlarmScheduler", "Scheduling initial alarm")
@@ -32,9 +32,10 @@ object AlarmScheduler {
 
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 7)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
+//            set(Calendar.HOUR_OF_DAY, 7)
+//            set(Calendar.MINUTE, 0)
+//            set(Calendar.SECOND, 0)
+            add(Calendar.SECOND, 5)
         }
 
         if (calendar.timeInMillis <= System.currentTimeMillis()) {
@@ -58,26 +59,33 @@ object AlarmScheduler {
         }
     }
 
-    fun scheduleRepeatingCheck(context: Context) {
+    fun scheduleCheck(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             action = ACTION_CHECK_NOTIFICATION_STATUS
         }
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            1, // Use a different request code
+            1,
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         Log.d("AlarmScheduler", "Setting 5-minute repeating check")
 
-        alarmManager.setInexactRepeating(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + FIVE_MINUTES_MS,
-            FIVE_MINUTES_MS,
-            pendingIntent
-        )
+        try {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + FIVE_MINUTES_MS,
+                pendingIntent
+            )
+        } catch (se: SecurityException) {
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + FIVE_MINUTES_MS,
+                pendingIntent
+            )
+        }
     }
 
     fun cancelRepeatingCheck(context: Context) {
@@ -87,7 +95,7 @@ object AlarmScheduler {
         }
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            1, // Must match the request code used for scheduling
+            1,
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_NO_CREATE
         )

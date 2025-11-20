@@ -26,7 +26,7 @@ object NotificationHandler {
         val notificationBuilder = NotificationCompat.Builder(context, NotificationChannels.CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("Good Morning!")
-            .setContentText("Don't forget to check your tasks for today.")
+            .setContentText("Create one task to focus on today.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
