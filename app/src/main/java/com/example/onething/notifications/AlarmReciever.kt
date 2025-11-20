@@ -22,7 +22,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 }
             }
 
-            Intent.ACTION_BOOT_COMPLETED -> {
+            Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_LOCKED_BOOT_COMPLETED, Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED -> {
                 AlarmScheduler.scheduleInitialAlarm(context)
             }
         }

@@ -34,7 +34,6 @@ import kotlinx.coroutines.withContext
 class AddTaskActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Draw behind system bars so IME insets work nicely with imePadding
         WindowCompat.setDecorFitsSystemWindows(window, false)
         enableEdgeToEdge()
 

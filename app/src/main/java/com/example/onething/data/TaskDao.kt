@@ -9,7 +9,6 @@ interface TaskDao {
     @Query("SELECT * FROM Task WHERE date BETWEEN :start AND :end ORDER BY date DESC")
     fun getAllToday(start: Instant = DateUtils.todayRange().first, end: Instant = DateUtils.todayRange().second): Flow<List<Task>>
 
-    // Snapshot list for non-reactive consumers (e.g., widgets)
     @Query("SELECT * FROM Task WHERE date BETWEEN :start AND :end ORDER BY date DESC")
     suspend fun getAllOnce(start: Instant = DateUtils.todayRange().first, end: Instant = DateUtils.todayRange().second): List<Task>
 

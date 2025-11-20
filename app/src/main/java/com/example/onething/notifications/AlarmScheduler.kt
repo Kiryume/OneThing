@@ -11,13 +11,14 @@ import java.util.Calendar
 object AlarmScheduler {
 
     const val ACTION_SHOW_INITIAL_NOTIFICATION =
-        "com.example.myapp.ACTION_SHOW_INITIAL_NOTIFICATION"
+        "com.example.onething.ACTION_SHOW_INITIAL_NOTIFICATION"
     const val ACTION_CHECK_NOTIFICATION_STATUS =
-        "com.example.myapp.ACTION_CHECK_NOTIFICATION_STATUS"
+        "com.example.onething.ACTION_CHECK_NOTIFICATION_STATUS"
 
-    private const val FIVE_MINUTES_MS = 5 * 60 * 1000L
+    private const val FIVE_MINUTES_MS = 5 /* 60 */* 1000L
 
     fun scheduleInitialAlarm(context: Context) {
+        Log.d("AlarmScheduler", "Scheduling initial alarm")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             action = ACTION_SHOW_INITIAL_NOTIFICATION
