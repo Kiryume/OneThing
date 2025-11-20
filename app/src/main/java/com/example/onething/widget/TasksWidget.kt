@@ -27,8 +27,6 @@ import com.example.onething.MainActivity
 import com.example.onething.data.AppDatabase
 import com.example.onething.data.Task
 import com.example.onething.ui.AddTaskActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class TasksWidget : GlanceAppWidget() {
 
@@ -40,7 +38,7 @@ class TasksWidget : GlanceAppWidget() {
             val tasks: List<Task>? by dao.getAllToday().collectAsState(initial = null)
 
             GlanceTheme {
-                when(tasks) {
+                when (tasks) {
                     null -> {
                         Box(
                             modifier = GlanceModifier
@@ -53,6 +51,7 @@ class TasksWidget : GlanceAppWidget() {
                             CircularProgressIndicator(color = GlanceTheme.colors.onBackground)
                         }
                     }
+
                     else -> {
                         TasksWidgetContent(context = context, tasks = tasks!!)
                     }
